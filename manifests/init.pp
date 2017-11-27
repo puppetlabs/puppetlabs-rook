@@ -46,13 +46,13 @@ class rook {
 
   include rook::packages
   include rook::install
-  # include rook::storage_class
+  include rook::storage_class
   contain rook::packages
   contain rook::install
-  # contain rook::storage_class
+  contain rook::storage_class
 
   Class['rook::packages']
     -> Class['rook::install']
-    # -> Class['rook::storage_class']
+    -> Class['rook::storage_class']
 
 }

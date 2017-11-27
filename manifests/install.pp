@@ -4,7 +4,6 @@ class rook::install {
 
   $env = [ 'HOME=/root', 'KUBECONFIG=/root/admin.conf']
   $path = ['/usr/bin', '/bin']
-  $helm_files = ['rook-cluster.yaml', 'rook-storage.yaml']
 
   helm::repo { 'rook-alpha':
     ensure    => present,
@@ -22,13 +21,4 @@ class rook::install {
     path         => $path,
     release_name => 'rook',
   }
-
-
-
-  $helm_files.each | String $file | {
-      file { "/tmp/${file}":
-        ensure  => present,
-        content => template("rook/${file}.erb"),
-        }
-    }
 }
