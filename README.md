@@ -12,24 +12,36 @@
 1. [Limitations - OS compatibility, etc.](#limitations)
 1. [Development - Guide for contributing to the module](#development)
 
+## Overview
+
+Rook provides File, Block, and Object Storage Services for your Cloud-Native Environments
+
 ## Description
 
-Start with a one- or two-sentence summary of what the module does and/or what
-problem it solves. This is your 30-second elevator pitch for your module.
-Consider including OS/Puppet version it works with.
+This module installs [Rook](https://rook.io/) for [Kubernetes](https://kubernetes.io/). It uses [Helm](https://helm.sh) to install Rook.
 
-You can give more descriptive information in a second paragraph. This paragraph
-should answer the questions: "What does this module *do*?" and "Why would I use
-it?" If your module has a range of functionality (installation, configuration,
-management, etc.), this is the time to mention it.
 
 ## Setup
 
-### What rook affects **OPTIONAL**
+Before install Rook, ensure you have Helm running on your Kubernetes cluster. See the [Helm module](https://forge.puppet.com/puppetlabs/helm) and the [Helm documentation](https://docs.helm.sh/) for information about installing Helm.
 
-If it's obvious what your module touches, you can skip this section. For
-example, folks can probably figure out that your mysql_instance module affects
-their MySQL instances.
+To install the rook module, include the `rook` class:
+
+```puppet
+include 'rook'
+```
+
+##Usage
+
+To customse options, such as the release channel, add the following code to the manifest file:
+
+```puppet
+class { 'rook':
+  rook_channel => 'rook-stable',
+}
+```
+
+
 
 If there's more that they should know about, though, this is the place to mention:
 
@@ -38,46 +50,45 @@ If there's more that they should know about, though, this is the place to mentio
 * Dependencies that your module automatically installs.
 * Warnings or other important notices.
 
-### Setup Requirements **OPTIONAL**
-
-If your module requires anything extra before setting up (pluginsync enabled,
-etc.), mention it here.
-
-If your most recent release breaks compatibility or requires particular steps
-for upgrading, you might want to include an additional "Upgrading" section
-here.
-
-### Beginning with rook
-
-The very basic steps needed for a user to get the module up and running. This
-can include setup steps, if necessary, or it can be an example of the most
-basic use of the module.
-
-## Usage
-
-This section is where you describe how to customize, configure, and do the
-fancy stuff with your module here. It's especially helpful if you include usage
-examples and code samples for doing things with your module.
-
 ## Reference
 
-Here, include a complete list of your module's classes, types, providers,
-facts, along with the parameters for each. Users refer to this section (thus
-the name "Reference") to find specific details; most users don't read it per
-se.
+### Classes
+
+#### Public Classes
+
+* ['rook'](#::rook)
+
+#### Private
+
+* ['rook::install'](#::rook::install). Installs the rook helm repository and chart.
+* ['rook::package'](#::rook::package). Installs the required Ceph packages.
+* ['rook::storage_class'](#::rook::storage_class). Executes additional configuration tasks for kubernetes.
+
+#### Class: `rook`
+
+Installs and configures rook.
+
+When the `rook` class is decreated, puppet does the following:
+ * Downloads and intalls Ceph packages
+ * Configures the Helm repository and install the helm chart
+ * Configures rook on kubernetes
+
+##### Parameters
+
+* `env`: Sets the environment variables for Helm and Kubectl connect to the Kubernetes cluster. Default: `[ 'HOME=/root', 'KUBECONFIG=/root/admin.conf']`
+* `path`: Sets the PATH for all exec resources in the module
+* `rook_channel`: Sets the release channel for the rook packages
+* `repo_url`: Sets the upstream URL for the helm repository
+
+
+
 
 ## Limitations
 
-This is where you list OS compatibility, version compatibility, etc. If there
-are Known Issues, you might want to include them under their own heading here.
+This module is compatible only with the `Linux` kernel.
 
 ## Development
 
-Since your module is awesome, other users will want to play with it. Let them
-know what the ground rules for contributing are.
+### Contributing
 
-## Release Notes/Contributors/Etc. **Optional**
-
-If you aren't using changelog, put your release notes here (though you should
-consider using changelog). You can also add any additional sections you feel
-are necessary or important to include here. Please use the `## ` header.
+If you would like to contribute to this module please follow the rules in the [CONTRIBUTING.md](https://github.com/puppetlabs/puppetlabs-rook/blob/master/CONTRIBUTING.md).
