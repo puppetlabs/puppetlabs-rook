@@ -1,0 +1,14 @@
+{
+  "description": "Executes the kubectl tasks to install rook",
+  "input_method": "stdin",
+  "parameters": {
+    "kubeconfig": {
+      "description": "Path of the config file for the KUBECONFIG environment variable",
+      "type": "String[1]"
+    },
+    "configfile": {
+      "description": "Path of the rook configuration file",
+      "type": "String[1]"
+    }
+  }
+}

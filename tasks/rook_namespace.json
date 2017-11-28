@@ -1,0 +1,14 @@
+{
+  "description": "Creates the rook namespace on a kubernetes cluster",
+  "input_method": "stdin",
+  "parameters": {
+    "kubeconfig": {
+      "description": "Path of the config file for the KUBECONFIG environment variable",
+      "type": "String[1]"
+    },
+    "namespace": {
+      "description": "Kubernetes namespace to run rook",
+      "type": "String[1]"
+    }
+  }
+}
