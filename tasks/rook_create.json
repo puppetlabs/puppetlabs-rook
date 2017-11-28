@@ -6,7 +6,7 @@
       "description": "Path of the config file for the KUBECONFIG environment variable",
       "type": "String[1]"
     },
-    "configfile": {
+    "config_file": {
       "description": "Path of the rook configuration file",
       "type": "String[1]"
     }
