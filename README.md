@@ -81,8 +81,6 @@ When the `rook` class is decreated, puppet does the following:
 * `repo_url`: Sets the upstream URL for the helm repository
 
 
-
-
 ## Limitations
 
 This module is compatible only with the `Linux` kernel.
