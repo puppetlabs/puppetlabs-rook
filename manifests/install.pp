@@ -1,22 +1,25 @@
 # This class installs the Helm repo for rook and the rook chart
 
-class rook::install {
+class rook::install (
+  $env          = $rook::env,
+  $path         = $rook::path,
+  $rook_channel = $rook::rook_channel,
+  $repo_url     = $rook::repo_url,
 
-  $env = [ 'HOME=/root', 'KUBECONFIG=/root/admin.conf']
-  $path = ['/usr/bin', '/bin']
+ ) {
 
-  helm::repo { 'rook-alpha':
-    ensure    => present,
-    env       => $env,
-    path      => $path,
-    repo_name => 'rook-alpha',
-    url       => 'http://charts.rook.io/alpha',
-    before    => Helm::Chart['rook']
+  helm::repo { $rook_channel:
+    ensure     => present,
+    env        => $env,
+    path       => $path,
+    repo_name  => $rook_channel,
+    url        => $repo_url,
+    before     => Helm::Chart['rook']
   }
 
   helm::chart { 'rook':
     ensure       => present,
-    chart        => 'rook-alpha/rook',
+    chart        => "rook-${rook_channel}/rook",
     env          => $env,
     path         => $path,
     release_name => 'rook',

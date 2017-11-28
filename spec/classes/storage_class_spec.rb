@@ -1,6 +1,10 @@
 require 'spec_helper'
 describe 'rook::storage_class' do
   context 'with default values for all parameters' do
+    let (:params) { {
+      'env' => ['HOME=/root', 'KUBECONFIG=/root/admin.conf'],
+      'path' => ['/usr/bin', '/bin']
+      }}
 
     helm_files = ['rook-cluster.yaml', 'rook-storage.yaml']
 

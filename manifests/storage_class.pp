@@ -1,12 +1,16 @@
 # This class installs and configures the rook storgae class for block level storage
 
-class rook::storage_class {
+class rook::storage_class (
+  $env = $rook::env,
+  $path = $rook::path,
+
+) {
 
   $helm_files = ['rook-cluster.yaml', 'rook-storage.yaml']
 
   Exec {
-    path        => ['/usr/bin', '/bin'],
-    environment => [ 'HOME=/root', 'KUBECONFIG=/root/admin.conf'],
+    path        => $path,
+    environment => $env,
     logoutput   => true,
     tries       => 10,
     try_sleep   => 30,

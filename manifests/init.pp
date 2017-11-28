@@ -42,7 +42,14 @@
 #
 # Copyright 2017 Your name here, unless otherwise noted.
 #
-class rook {
+class rook (
+
+  $env          = $rook::params::env,
+  $path         = $rook::params::path,
+  $rook_channel = $rook::params::rook_channel,
+  $repo_url     = $rook::params::repo_url,
+
+) inherits rook::params {
 
   include rook::packages
   include rook::install
