@@ -12,28 +12,25 @@
 1. [Limitations - OS compatibility, etc.](#limitations)
 1. [Development - Guide for contributing to the module](#development)
 
-## Overview
-
-Rook provides File, Block, and Object Storage Services for your Cloud-Native Environments
-
 ## Description
 
-This module installs [Rook](https://rook.io/) for [Kubernetes](https://kubernetes.io/). It uses [Helm](https://helm.sh) to install Rook.
+Rook provides file, block, and object storage services for your cloud-native environments.
 
+This module uses [Helm](https://helm.sh) to install [Rook](https://rook.io/) for [Kubernetes](https://kubernetes.io/).
 
 ## Setup
 
-Before install Rook, ensure you have Helm running on your Kubernetes cluster. See the [Helm module](https://forge.puppet.com/puppetlabs/helm) and the [Helm documentation](https://docs.helm.sh/) for information about installing Helm.
+Before installing Rook, make sure you have Helm running on your Kubernetes cluster. For information about installing Helm, see the [Helm module](https://forge.puppet.com/puppetlabs/helm) and the [Helm documentation](https://docs.helm.sh/).
 
-To install the rook module, include the `rook` class:
+To install the Rook module, include the `rook` class by adding the following code to the manifest file:
 
 ```puppet
 include 'rook'
 ```
 
-##Usage
+## Usage
 
-To customse options, such as the release channel, add the following code to the manifest file:
+To customize options, such as the release channel, add the following code to the manifest file:
 
 ```puppet
 class { 'rook':
@@ -43,7 +40,7 @@ class { 'rook':
 
 ### Tasks
 
-The rook module has an example task that allows a user to create the rook namespace and execute the kubectl tasks to configure rook on kubernetes
+Included in the Rook module is an example task. This creates the rook namespace, and executes the kubectl tasks to configure rook on kubernetes.
 
 ```puppet
 bolt task run rook::rook_namespace kubeconfig=<path-to-config-file> namespace=<namespace-title> ---nodes <k8s-node-name> --user <user> --password <password> --modulepath <module-path>
@@ -53,8 +50,7 @@ bolt task run rook::rook_namespace kubeconfig=<path-to-config-file> namespace=<n
 bolt task run rook::rook_create kubeconfig=<path-to-config-file> config_file=<path-to-config-file> ---nodes <k8s-node-name> --user <user> --password <password> --modulepath <module-path>
 ```
 
-
-For further explanation please refer to the[PE documentation](https://puppet.com/docs/pe/2017.3/orchestrator/running_tasks.html) or [Bolt documentation](https://puppet.com/docs/bolt/latest/bolt.html) on how to execute a task.
+For additional information on how to execute a task, see the [PE](https://puppet.com/docs/pe/2017.3/orchestrator/running_tasks.html) documentation or the [Bolt](https://puppet.com/docs/bolt/latest/bolt.html) documentation.
 
 ## Reference
 
@@ -62,13 +58,13 @@ For further explanation please refer to the[PE documentation](https://puppet.com
 
 #### Public Classes
 
-* ['rook'](#::rook)
+* [`rook`](#::rook)
 
 #### Private
 
-* ['rook::install'](#::rook::install). Installs the rook helm repository and chart.
-* ['rook::package'](#::rook::package). Installs the required Ceph packages.
-* ['rook::storage_class'](#::rook::storage_class). Executes additional configuration tasks for kubernetes.
+* [`rook::install`](#::rook::install). Installs the rook helm repository and chart.
+* [`rook::package`](#::rook::package). Installs the required Ceph packages.
+* [`rook::storage_class`](#::rook::storage_class). Executes additional configuration tasks for kubernetes.
 
 #### Class: `rook`
 
@@ -76,16 +72,15 @@ Installs and configures rook.
 
 When the `rook` class is decreated, puppet does the following:
  * Downloads and intalls Ceph packages
- * Configures the Helm repository and install the helm chart
+ * Configures the Helm repository and installs the helm chart
  * Configures rook on kubernetes
 
 ##### Parameters
 
-* `env`: Sets the environment variables for Helm and Kubectl connect to the Kubernetes cluster. Default: `[ 'HOME=/root', 'KUBECONFIG=/root/admin.conf']`
+* `env`: Sets the environment variables for Helm and Kubectl to connect to the Kubernetes cluster. Default: `[ 'HOME=/root', 'KUBECONFIG=/root/admin.conf']`
 * `path`: Sets the PATH for all exec resources in the module
 * `rook_channel`: Sets the release channel for the rook packages
 * `repo_url`: Sets the upstream URL for the helm repository
-
 
 ## Limitations
 
