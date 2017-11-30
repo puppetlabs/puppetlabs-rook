@@ -19,7 +19,7 @@ class rook::install (
 
   helm::chart { 'rook':
     ensure       => present,
-    chart        => "rook-${rook_channel}/rook",
+    chart        => "${rook_channel}/rook",
     env          => $env,
     path         => $path,
     release_name => 'rook',
