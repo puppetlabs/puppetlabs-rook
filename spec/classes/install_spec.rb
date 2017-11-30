@@ -9,16 +9,22 @@ describe 'rook::install' do
       'repo_url' => 'http://charts.rook.io/alpha'
       }}
 
-    env = [ 'HOME=/root', 'KUBECONFIG=/root/admin.conf']
-    path = ['/usr/bin', '/bin']
-
       it { should contain_helm__repo('rook-alpha').with({
         :ensure => 'present',
-        :env => "#{env}",
-        :path => "#{path}",
+        :env => ['HOME=/root', 'KUBECONFIG=/root/admin.conf'],
+        :path => ['/usr/bin', '/bin'],
         :repo_name => 'rook-alpha',
         :url => 'http://charts.rook.io/alpha',
         :before => 'Helm::Chart[rook]',
+        })
+      }
+
+      it { should contain_helm__chart('rook').with({
+        :ensure => 'present',
+        :chart  => 'rook-alpha/rook',
+        :env => ['HOME=/root', 'KUBECONFIG=/root/admin.conf'],
+        :path => ['/usr/bin', '/bin'],
+        :release_name => 'rook',
         })
       }
     end
