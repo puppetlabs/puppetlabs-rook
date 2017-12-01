@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.com/puppetlabs/puppetlabs-rook.svg?token=MxrBLrbY3Hry1qsacDQC&branch=master)](https://travis-ci.com/puppetlabs/puppetlabs-rook)
+
 # rook
 
 #### Table of Contents
