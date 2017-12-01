@@ -5,16 +5,15 @@ class rook::install (
   $path         = $rook::path,
   $rook_channel = $rook::rook_channel,
   $repo_url     = $rook::repo_url,
-
- ) {
+) {
 
   helm::repo { $rook_channel:
-    ensure     => present,
-    env        => $env,
-    path       => $path,
-    repo_name  => $rook_channel,
-    url        => $repo_url,
-    before     => Helm::Chart['rook']
+    ensure    => present,
+    env       => $env,
+    path      => $path,
+    repo_name => $rook_channel,
+    url       => $repo_url,
+    before    => Helm::Chart['rook']
   }
 
   helm::chart { 'rook':
