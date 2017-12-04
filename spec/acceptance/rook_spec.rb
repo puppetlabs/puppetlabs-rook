@@ -63,7 +63,7 @@ describe 'the rook module' do
       end
 
       it 'should create rook namespace' do
-        shell('sleep 60')
+        shell('sleep 120')
         shell('export KUBECONFIG=/root/admin.conf;kubectl get namespaces | grep rook', :acceptable_exit_codes => [0])
       end
 
