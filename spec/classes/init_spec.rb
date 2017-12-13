@@ -7,7 +7,9 @@ describe 'rook' do
     'rook_channel' => 'rook-alpha',
     'repo_url' => 'http://charts.rook.io/alpha',
     } }
-
+    let(:facts) { {
+        operatingsystem: 'CentOS',
+    }}
     it { should contain_class('rook') }
     it { should contain_class('rook::packages') }
     it { should contain_class('rook::install') }
