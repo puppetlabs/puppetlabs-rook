@@ -5,6 +5,9 @@ describe 'rook::storage_class' do
       'env' => ['HOME=/root', 'KUBECONFIG=/root/admin.conf'],
       'path' => ['/usr/bin', '/bin']
       }}
+    let(:facts) { {
+        operatingsystem: 'CentOS',
+    }}
 
     helm_files = ['rook-cluster.yaml', 'rook-storage.yaml']
 

@@ -45,12 +45,24 @@ describe 'the rook module' do
       it 'should run' do
         apply_manifest(pp, :catch_failures => true)
       end
+      
+      if fact('osfamily') == 'Debian'
+        [ 'ceph-common',
+          'ceph-fs-common'
+        ].each do | package_name |
+          it 'should contain packages' do
+            expect(package(package_name)).to be_installed
+          end
+        end
+      end
 
-      [ 'ceph-common',
-        'ceph-fs-common'
-      ].each do | package_name |
-        it 'should contain packages' do
-          expect(package(package_name)).to be_installed
+      if fact('osfamily') == 'RedHat'
+        [ 'ceph-common',
+          'ceph-deploy'
+        ].each do | package_name |
+          it 'should contain packages' do
+            expect(package(package_name)).to be_installed
+          end
         end
       end
 

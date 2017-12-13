@@ -8,7 +8,9 @@ describe 'rook::install' do
       'rook_channel' => 'rook-alpha',
       'repo_url' => 'http://charts.rook.io/alpha'
       }}
-
+    let(:facts) { {
+        operatingsystem: 'CentOS',
+      }}
       it { should contain_helm__repo('rook-alpha').with({
         :ensure => 'present',
         :env => ['HOME=/root', 'KUBECONFIG=/root/admin.conf'],
