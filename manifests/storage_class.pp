@@ -1,8 +1,8 @@
 # This class installs and configures the rook storgae class for block level storage
 
 class rook::storage_class (
-  $env = $rook::env,
-  $path = $rook::path,
+  Array $env  = $rook::env,
+  Array $path = $rook::path,
 
 ) {
 
