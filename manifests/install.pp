@@ -1,10 +1,10 @@
 # This class installs the Helm repo for rook and the rook chart
 
 class rook::install (
-  $env          = $rook::env,
-  $path         = $rook::path,
-  $rook_channel = $rook::rook_channel,
-  $repo_url     = $rook::repo_url,
+  Array $env           = $rook::env,
+  Array $path          = $rook::path,
+  String $rook_channel = $rook::rook_channel,
+  String $repo_url     = $rook::repo_url,
 ) {
 
   helm::repo { $rook_channel:

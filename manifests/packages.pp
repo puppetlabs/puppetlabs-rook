@@ -1,4 +1,4 @@
-# This class installs packages that rook needs 
+# This class installs packages that rook needs
 
 class rook::packages {
 
