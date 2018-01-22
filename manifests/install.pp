@@ -5,6 +5,7 @@ class rook::install (
   Array $path          = $rook::path,
   String $rook_channel = $rook::rook_channel,
   String $repo_url     = $rook::repo_url,
+  String $version      = $rook::version,
 ) {
 
   helm::repo { $rook_channel:
@@ -21,6 +22,7 @@ class rook::install (
     chart        => "${rook_channel}/rook",
     env          => $env,
     path         => $path,
+    set          => ["image.tag=${version}"],
     release_name => 'rook',
   }
 }
