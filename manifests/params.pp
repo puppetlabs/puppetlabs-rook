@@ -4,4 +4,5 @@ class rook::params {
   $path         = ['/usr/bin', '/bin']
   $rook_channel = 'rook-alpha'
   $repo_url     = 'http://charts.rook.io/alpha'
+  $version      = 'v0.6.2'
 }
