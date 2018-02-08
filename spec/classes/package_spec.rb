@@ -7,6 +7,7 @@ describe 'rook::packages' do
     rook_packages = [ 'ceph-common', 'ceph-deploy']
     rook_packages.each do | package |
       it { should contain_package("#{package}")}
+      it { should contain_class('epel')}
     end
   end
   context 'Debian with default values for all parameters' do

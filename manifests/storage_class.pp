@@ -6,7 +6,7 @@ class rook::storage_class (
 
 ) {
 
-  $helm_files = ['rook-cluster.yaml', 'rook-pool.yaml', 'rook-storage.yaml']
+  $helm_files = ['rook-cluster.yaml', 'rook-storage.yaml']
 
   Exec {
     path        => $path,
@@ -46,19 +46,11 @@ class rook::storage_class (
     require   => Exec['Create rook cluster'],
   }
 
-  exec { 'Create storage pool':
-    command     => 'kubectl create -f rook-pool.yaml',
-    cwd         => '/tmp',
-    subscribe   => File['/tmp/rook-pool.yaml'],
-    refreshonly => true,
-    require     => [File['/tmp/rook-pool.yaml'], Exec['Checking for the Rook api to be ready']],
-  }
-
   exec { 'Create storage class':
     command     => 'kubectl create -f rook-storage.yaml',
     cwd         => '/tmp',
     subscribe   => File['/tmp/rook-storage.yaml'],
     refreshonly => true,
-    require     => [File['/tmp/rook-storage.yaml'], Exec['Create storage pool']],
+    require     => File['/tmp/rook-storage.yaml'],
   }
 }

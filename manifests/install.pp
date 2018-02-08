@@ -22,7 +22,7 @@ class rook::install (
     chart        => "${rook_channel}/rook",
     env          => $env,
     path         => $path,
-    #version      => $version,
+    version      => $version,
     release_name => 'rook',
   }
 }
