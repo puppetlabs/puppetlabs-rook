@@ -1,6 +1,6 @@
 {
   "name": "puppetlabs-rook",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "author": "puppetlabs",
   "summary": "A module for installing and configuring rook https://rook.io",
   "license": "Apache-2.0",
