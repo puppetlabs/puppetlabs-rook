@@ -4,8 +4,8 @@ metadata:
   name: replicapool
   namespace: rook
 spec:
-  replication:
-    size: 1
+  replicated:
+    size: 3
 ---
 apiVersion: storage.k8s.io/v1
 kind: StorageClass

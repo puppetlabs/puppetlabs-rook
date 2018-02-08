@@ -39,6 +39,13 @@ class rook::storage_class (
     require     => File['/tmp/rook-cluster.yaml'],
   }
 
+  exec {'Checking for the Rook api to be ready':
+    command   => 'kubectl get pods -n rook | grep rook-api | grep -w Running',
+    logoutput => true,
+    unless    => 'kubectl get pods -n rook | grep rook-api | grep -w Running',
+    require   => Exec['Create rook cluster'],
+  }
+
   exec { 'Create storage class':
     command     => 'kubectl create -f rook-storage.yaml',
     cwd         => '/tmp',

@@ -16,6 +16,7 @@ exclude_paths = [
 ]
 
 PuppetLint.configuration.send('disable_80chars')
+PuppetLint.configuration.send('disable_case_without_default')
 PuppetLint.configuration.relative = true
 PuppetLint.configuration.ignore_paths = exclude_paths
 
