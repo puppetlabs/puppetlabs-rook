@@ -9,6 +9,9 @@ describe 'rook' do
     } }
     let(:facts) { {
         operatingsystem: 'CentOS',
+	osfamily: 'RedHat',  
+	operatingsystemrelease: '7.4', 
+        operatingsystemmajrelease: '7', 	
     }}
     it { should contain_class('rook') }
     it { should contain_class('rook::packages') }
