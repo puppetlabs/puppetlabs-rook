@@ -4,14 +4,13 @@ require 'open3'
 require 'puppet'
 
 def rook_create(kubeconfig,config_file)
-  cmd_string = "KUBECONFIG=#{kubeconfig} kubectl create -f"
-  cmd_string << " #{config_file}" unless config_file.nil?
-
+  cmd_string = ["KUBECONFIG=#{kubeconfig}", 'kubectl', 'create', '-f ' ]
+  cmd_string << "#{config_file}" unless config_file.nil?
   stdout, stderr, status = Open3.capture3(cmd_string)
-  raise Puppet::Error, ("stderr: '#{stderr}'") if status != 0
-  stdout.strip
+  raise Puppet::Error, stderr if status != 0
+  { status: stdout.strip }
 end
-
+s
 params = JSON.parse(STDIN.read)
 kubeconfig = params['kubeconfig']
 config_file = params['config_file']
