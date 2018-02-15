@@ -4,7 +4,7 @@
   "parameters": {
     "kubeconfig": {
       "description": "Path of the config file for the KUBECONFIG environment variable",
-      "type": "String[1]"
+      "type": "Optional[String[1]]"
     },
     "config_file": {
       "description": "Path of the rook configuration file",
