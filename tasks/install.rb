@@ -4,12 +4,8 @@ require 'open3'
 require 'puppet'
 
 def create(config_file,kubeconfig)
-  if kubeconfig
-  cmd = ["KUBECONFIG=#{kubeconfig}", 'kubectl', 'create', '-f', "#{config_file}"]
-  else
   cmd = ['kubectl', 'create', '-f', "#{config_file}"]
-  end
-  stdout, stderr, status = Open3.capture3(*cmd) # rubocop:disable Lint/UselessAssignment
+  stdout, stderr, status = Open3.capture3({"KUBECONFIG" => "#{kubeconfig}"},*cmd) # rubocop:disable Lint/UselessAssignment
   raise Puppet::Error, stderr if status != 0
   { status: stdout.strip }
 end
@@ -27,3 +23,4 @@ rescue Puppet::Error => e
   puts({ status: 'failure', error: e.message })
   exit 1
 end
+
