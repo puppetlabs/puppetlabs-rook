@@ -3,22 +3,19 @@ require 'json'
 require 'open3'
 require 'puppet'
 
-def rook_namespace(kubeconfig,namespace)
-  cmd_string = ["KUBECONFIG=#{kubeconfig}", 'kubectl', 'create', 'namespace  ']
-  cmd_string << "#{namespace}" unless namespace.nil?
-  stdout, stderr, status = Open3.capture3(cmd_string)
+def namespace(namespace)
+  cmd = ['kubectl', 'create', 'namespace', "#{namespace}"]
+  stdout, stderr, status = Open3.capture3(cmd)
   raise Puppet::Error, stderr if status != 0
   { status: stdout.strip }
 end
 
 params = JSON.parse(STDIN.read)
-kubeconfig= params['kubeconfig']
 namespace = params['namespace']
 
-
 begin
-  result = rook_namespace(kubeconfig,namespace)
-  puts result
+  result = namespace(namespace)
+  puts result.to_json
   exit 0
 rescue Puppet::Error => e
   puts({ status: 'failure', error: e.message })
