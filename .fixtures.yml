@@ -1,5 +1,4 @@
 fixtures:
   forge_modules:
-    helm: 'puppetlabs-helm'
     stdlib: 'puppetlabs-stdlib'
     epel: 'stahnma-epel'

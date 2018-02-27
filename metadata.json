@@ -8,7 +8,6 @@
   "project_page": "https://github.com/puppetlabs/puppetlabs-rook",
   "issues_url": "https://github.com/puppetlabs/puppetlabs-rook/issues",
   "dependencies": [
-    {"name":"puppetlabs-helm","version_requirement":">= 0.1.3"},
     {"name":"puppetlabs-stdlib","version_requirement":">= 4.24.0"},
     {"name":"puppetlabs/translate","version_requirement":">= 0.0.1 < 1.0.0"},
     {"name":"stahnma/epel","version_requirement":">= 1.2.2 < 1.3.0"}

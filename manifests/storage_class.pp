@@ -6,7 +6,7 @@ class rook::storage_class (
 
 ) {
 
-  $helm_files = ['rook-cluster.yaml', 'rook-storage.yaml']
+  $helm_files = ['rook-operator.yaml','rook-cluster.yaml', 'rook-storage.yaml']
 
   Exec {
     path        => $path,
@@ -26,8 +26,31 @@ class rook::storage_class (
   exec { 'Create rook namespace':
     command => 'kubectl create namespace rook',
     unless  => 'kubectl get namespace | grep rook',
-    before  => Exec['Create rook cluster'],
+    before  => Exec['Create rook operator'],
 
+  }
+
+  exec { 'Create rook operator':
+    command     => 'kubectl create -f rook-operator.yaml',
+    cwd         => '/tmp',
+    subscribe   => File['/tmp/rook-operator.yaml'],
+    refreshonly => true,
+    before      => Exec['Create rook cluster'],
+    require     => File['/tmp/rook-operator.yaml'],
+  }
+
+  exec {'Checking for the Rook operator to be ready':
+    command   => 'kubectl get pods -n rook-system| grep rook-operator | grep -w Running',
+    logoutput => true,
+    unless    => 'kubectl get pods -n rook-system| grep rook-operator | grep -w Running',
+    require   => Exec['Create rook operator'],
+  }
+
+  exec {'Checking for the Rook agent to be ready':
+    command   => 'kubectl get pods -n rook-system| grep rook-agent | grep -w Running',
+    logoutput => true,
+    unless    => 'kubectl get pods -n rook-system| grep rook-agent | grep -w Running',
+    require   => Exec['Checking for the Rook operator to be ready'],
   }
 
   exec { 'Create rook cluster':
