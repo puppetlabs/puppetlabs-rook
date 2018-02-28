@@ -68,6 +68,7 @@ When the `rook` class is decreated, puppet does the following:
 
 * `env`: Sets the environment variables for Kubectl to connect to the Kubernetes cluster. Default: `[ 'HOME=/root', 'KUBECONFIG=/root/admin.conf']`
 * `path`: Sets the PATH for all exec resources in the module
+* `version`: Sets the version of rook to install
 
 ## Limitations
 
