@@ -1,3 +1,7 @@
+Version 0.1.4
+
+Removing dependency on upstream helm chart PR #25
+
 Version 0.1.3
 
 Fix for CVE-2018-6508
