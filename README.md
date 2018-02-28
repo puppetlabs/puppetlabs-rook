@@ -11,8 +11,6 @@
 
 Rook is an open source orchestrator for distributed storage systems running in cloud native environments, and provides file, block, and object storage services.
 
-This module uses [Helm](https://helm.sh) to install [Rook](https://rook.io/) for [Kubernetes](https://kubernetes.io/).
-
 ## Setup
 
 Before installing Rook, make sure you have Helm running on your Kubernetes cluster. For information about installing Helm, see the [Helm module](https://forge.puppet.com/puppetlabs/helm) and the [Helm documentation](https://docs.helm.sh/).
@@ -57,9 +55,8 @@ For additional information on how to execute a task, see the [PE](https://puppet
 
 #### Private Classes
 
-* [`rook::install`](#::rook::install). Installs the rook helm repository and chart.
 * [`rook::packages`](#::rook::package). Installs the required Ceph packages.
-* [`rook::storage_class`](#::rook::storage_class). Executes additional configuration tasks for kubernetes.
+* [`rook::storage_class`](#::rook::storage_class). Executes configuration tasks for kubernetes.
 
 #### Class: `rook`
 
@@ -67,15 +64,12 @@ Installs and configures rook.
 
 When the `rook` class is decreated, puppet does the following:
  * Downloads and intalls Ceph packages
- * Configures the Helm repository and installs the helm chart
  * Configures rook on kubernetes
 
 ##### Parameters
 
 * `env`: Sets the environment variables for Helm and Kubectl to connect to the Kubernetes cluster. Default: `[ 'HOME=/root', 'KUBECONFIG=/root/admin.conf']`
 * `path`: Sets the PATH for all exec resources in the module
-* `rook_channel`: Sets the release channel for the rook packages
-* `repo_url`: Sets the upstream URL for the helm repository
 
 ## Limitations
 

@@ -79,11 +79,6 @@ describe 'the rook module' do
             expect(r.stdout).to match(/Running/)
         end
       end
-      it 'should create rook cluster and verify rook-ceph-mgr1' do
-        shell('export KUBECONFIG=/root/admin.conf;kubectl -n rook get pod | grep rook-ceph-mgr1', :acceptable_exit_codes => [0]) do |r|
-            expect(r.stdout).to match(/Running/)
-        end
-      end
       it 'should create rook cluster and verify rook-ceph-mon0' do
         shell('export KUBECONFIG=/root/admin.conf;kubectl -n rook get pod | grep rook-ceph-mon0', :acceptable_exit_codes => [0]) do |r|
             expect(r.stdout).to match(/Running/)
