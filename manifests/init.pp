@@ -46,21 +46,16 @@ class rook (
 
   Array $env           = $rook::params::env,
   Array $path          = $rook::params::path,
-  String $rook_channel = $rook::params::rook_channel,
-  String $repo_url     = $rook::params::repo_url,
   String $version      = $rook::params::version,
 
 ) inherits rook::params {
 
   include rook::packages
-  include rook::install
   include rook::storage_class
   contain rook::packages
-  contain rook::install
   contain rook::storage_class
 
   Class['rook::packages']
-    -> Class['rook::install']
     -> Class['rook::storage_class']
 
 }

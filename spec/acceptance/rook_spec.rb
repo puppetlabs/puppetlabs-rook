@@ -23,20 +23,6 @@ describe 'the rook module' do
     end
   end
 
-  describe 'helm class' do
-    context 'it should install the module' do
-      let(:pp) {"
-      include helm
-      "}
-      it 'should run' do
-        apply_manifest(pp, :catch_failures => true)
-      end
-      it 'should install helm' do
-        shell('helm', :acceptable_exit_codes => [0])
-      end
-    end
-  end
-
   describe 'rook class' do
     context 'it should install the module' do
       let(:pp) {"
@@ -45,7 +31,7 @@ describe 'the rook module' do
       it 'should run' do
         apply_manifest(pp, :catch_failures => true)
       end
-      
+
       if fact('osfamily') == 'Debian'
         [ 'ceph-common',
           'ceph-fs-common'
@@ -66,17 +52,21 @@ describe 'the rook module' do
         end
       end
 
-      it 'should deploy a rook package' do
-        shell('export KUBECONFIG=/root/admin.conf;helm ls | grep rook', :acceptable_exit_codes => [0])
-      end
-
-      it 'should add rook repo' do
-        shell('export KUBECONFIG=/root/admin.conf;helm repo list | grep rook-alpha', :acceptable_exit_codes => [0])
-      end
-
       it 'should create rook namespace' do
         shell('sleep 120')
         shell('export KUBECONFIG=/root/admin.conf;kubectl get namespaces | grep rook', :acceptable_exit_codes => [0])
+      end
+
+      it 'should create rook operator ' do
+        shell('export KUBECONFIG=/root/admin.conf;kubectl -n rook-system get pod | grep rook-operator', :acceptable_exit_codes => [0]) do |r|
+            expect(r.stdout).to match(/Running/)
+        end
+      end
+
+      it 'should create rook agent ' do
+        shell('export KUBECONFIG=/root/admin.conf;kubectl -n rook-system get pod | grep rook-agent', :acceptable_exit_codes => [0]) do |r|
+            expect(r.stdout).to match(/Running/)
+        end
       end
 
       it 'should create rook cluster and verify rook-api' do
@@ -86,11 +76,6 @@ describe 'the rook module' do
       end
       it 'should create rook cluster and verify rook-ceph-mgr0' do
         shell('export KUBECONFIG=/root/admin.conf;kubectl -n rook get pod | grep rook-ceph-mgr0', :acceptable_exit_codes => [0]) do |r|
-            expect(r.stdout).to match(/Running/)
-        end
-      end
-      it 'should create rook cluster and verify rook-ceph-mgr1' do
-        shell('export KUBECONFIG=/root/admin.conf;kubectl -n rook get pod | grep rook-ceph-mgr1', :acceptable_exit_codes => [0]) do |r|
             expect(r.stdout).to match(/Running/)
         end
       end

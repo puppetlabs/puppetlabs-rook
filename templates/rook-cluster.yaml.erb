@@ -4,8 +4,8 @@ metadata:
   name: rook
   namespace: rook
 spec:
-  versionTag: alpha
-  dataDirHostPath: /var/lib/rook 
+  versionTag: <%= @version %>
+  dataDirHostPath: /var/lib/rook
   storage:
     useAllNodes: true
     useAllDevices: false
