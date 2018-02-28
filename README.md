@@ -19,16 +19,6 @@ To install the rook module, include the `rook` class by adding the following cod
 include 'rook'
 ```
 
-## Usage
-
-To customize options, such as the release channel, add the following code to the manifest file:
-
-```puppet
-class { 'rook':
-  rook_channel => 'rook-stable',
-}
-```
-
 ### Tasks
 
 Included in the rook module is an example task. This creates the rook namespace, and executes the kubectl tasks to configure rook on kubernetes.
