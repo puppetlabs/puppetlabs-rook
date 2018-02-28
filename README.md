@@ -13,8 +13,6 @@ Rook is an open source orchestrator for distributed storage systems running in c
 
 ## Setup
 
-Before installing Rook, make sure you have Helm running on your Kubernetes cluster. For information about installing Helm, see the [Helm module](https://forge.puppet.com/puppetlabs/helm) and the [Helm documentation](https://docs.helm.sh/).
-
 To install the rook module, include the `rook` class by adding the following code to the manifest file:
 
 ```puppet
@@ -68,7 +66,7 @@ When the `rook` class is decreated, puppet does the following:
 
 ##### Parameters
 
-* `env`: Sets the environment variables for Helm and Kubectl to connect to the Kubernetes cluster. Default: `[ 'HOME=/root', 'KUBECONFIG=/root/admin.conf']`
+* `env`: Sets the environment variables for Kubectl to connect to the Kubernetes cluster. Default: `[ 'HOME=/root', 'KUBECONFIG=/root/admin.conf']`
 * `path`: Sets the PATH for all exec resources in the module
 
 ## Limitations
