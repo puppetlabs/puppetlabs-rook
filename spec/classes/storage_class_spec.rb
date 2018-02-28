@@ -3,15 +3,16 @@ describe 'rook::storage_class' do
   context 'with default values for all parameters' do
     let (:params) { {
       'env' => ['HOME=/root', 'KUBECONFIG=/root/admin.conf'],
-      'path' => ['/usr/bin', '/bin']
+      'path' => ['/usr/bin', '/bin'],
+      'version' => 'v0.7.0'
       }}
     let(:facts) { {
         operatingsystem: 'CentOS',
     }}
 
-    helm_files = ['rook-operator.yaml','rook-cluster.yaml', 'rook-storage.yaml']
+    rook_files = ['rook-operator.yaml','rook-cluster.yaml', 'rook-storage.yaml']
 
-    helm_files.each do | file |
+    rook_files.each do | file |
       it { should contain_file("/tmp/#{file}").with({ :ensure => 'present' })}
     end
 

@@ -119,7 +119,7 @@ spec:
       serviceAccountName: rook-operator
       containers:
       - name: rook-operator
-        image: rook/rook:master
+        image: rook/rook:<%= @version %>
         args: ["operator"]
         env:
         - name: ROOK_MON_OUT_TIMEOUT

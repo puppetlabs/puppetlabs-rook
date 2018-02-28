@@ -1,12 +1,13 @@
 # This class installs and configures the rook storgae class for block level storage
 
 class rook::storage_class (
-  Array $env  = $rook::env,
-  Array $path = $rook::path,
+  Array $env      = $rook::env,
+  Array $path     = $rook::path,
+  String $version = $rook::version,
 
 ) {
 
-  $helm_files = ['rook-operator.yaml','rook-cluster.yaml', 'rook-storage.yaml']
+  $rook_files = ['rook-operator.yaml','rook-cluster.yaml', 'rook-storage.yaml']
 
   Exec {
     path        => $path,
@@ -16,7 +17,7 @@ class rook::storage_class (
     try_sleep   => 30,
   }
 
-  $helm_files.each | String $file | {
+  $rook_files.each | String $file | {
       file { "/tmp/${file}":
         ensure  => present,
         content => template("rook/${file}.erb"),
