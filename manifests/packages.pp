@@ -14,7 +14,8 @@ class rook::packages {
         include epel
         }
     }
-  }
+    default: {}
+}
 
   package { $rook_packages:
     ensure => present,
