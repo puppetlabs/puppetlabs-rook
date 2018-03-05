@@ -1,7 +1,4 @@
-This module has grown over time based on a range of contributions from
-people using it. If you follow these contributing guidelines your patch
-will likely make it into a release a little quicker.
-
+To ensure the module maintains consistency throughout its lifecycle, please follow the process below to have your PR reviewed
 
 ## Contributing
 
@@ -62,5 +59,27 @@ Note also you can run the syntax, style and unit tests in one go with:
 
     bundle exec rake test
 
+## Integration tests
 
+The unit tests just check the code runs, not that it does exactly what
+we want on a real machine. For that we're using
+[Beaker](https://github.com/puppetlabs/beaker).
+This fires up a new virtual machine (using vagrant) and runs a series of
+simple tests against it after applying the module. You can run this
+with:
+
+    bundle exec rake acceptance
+
+This will run the tests on an Ubuntu 16.04 virtual machine. You can also
+run the integration tests against RHEL, CentOS and Debian.
+
+    bundle exec rake acceptance:pooler:centos7
+    bundle exec rake acceptance:pooler:rhel7
+    bundle exec rake acceptance:pooler:ubuntu-1404
+    bundle exec rake acceptance:pooler:ubuntu-1604
+    bundle exec rake acceptance:pooler:ubuntu-1610
+    bundle exec rake acceptance:vagrant:centos-70-x64
+    bundle exec rake acceptance:vagrant:debian-81-x64
+    bundle exec rake acceptance:vagrant:ubuntu-1404-x64
+    bundle exec rake acceptance:vagrant:ubuntu-1604-x64
 
