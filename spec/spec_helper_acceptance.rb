@@ -135,12 +135,6 @@ EOS
         create_remote_file(host,"/etc/puppetlabs/puppet/hiera.yaml", hiera)
         on(host, 'cp /etc/puppetlabs/code/environments/production/modules/kubernetes/tooling/*.yaml /etc/puppetlabs/code/environments/production/hieradata/', acceptable_exit_codes: [0]).stdout
 
-        # if fact('osfamily') == 'Debian'
-        #   # on(host, 'sed -i /cni_network_provider/d /etc/puppetlabs/code/environments/production/hieradata/Debian.yaml', acceptable_exit_codes: [0]).stdout
-        #   # on(host, 'echo "kubernetes::cni_network_provider: https://cloud.weave.works/k8s/net?k8s-version=\$(kubectl version | base64 | tr -d \"\n\")\&env.IPALLOC_RANGE=100.32.0.0/12" >> /etc/puppetlabs/code/environments/production/hieradata/Debian.yaml', acceptable_exit_codes: [0]).stdout
-        #   on(host, 'echo "kubernetes::schedule_on_controller: true"  >> /etc/puppetlabs/code/environments/production/hieradata/Debian.yaml', acceptable_exit_codes: [0]).stdout          
-        # end
-
         # Disable swap
         on(host, 'swapoff -a')
     end
