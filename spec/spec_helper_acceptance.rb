@@ -40,7 +40,7 @@ RSpec.configure do |c|
 
       on host, puppet('module', 'install', 'puppetlabs-kubernetes'), { :acceptable_exit_codes => [0,1] }
       on host, puppet('module', 'install', 'puppetlabs-stdlib'), { :acceptable_exit_codes => [0,1] }
-      on host, puppet('module', 'install', 'puppet-archive'), { :acceptable_exit_codes => [0,1] }
+      on host, puppet('module', 'install', 'stahnma/epel'), { :acceptable_exit_codes => [0,1] }
 
       # shell('echo "#{vmhostname}" > /etc/hostname')
       # shell("hostname #{vmhostname}")
