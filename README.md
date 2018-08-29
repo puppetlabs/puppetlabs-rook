@@ -15,7 +15,7 @@
 
 [Rook](https://github.com/rook/rook) is an open source orchestrator providing file, block, and object storage services for distributed storage systems running in cloud-native environments.
 
-This module installs and configures Rook on Kubernetes.
+This module installs and configures Rook on a Kubernetes cluster.
 
 ## Setup
 
@@ -57,24 +57,24 @@ For additional information on how to execute a task, see the [PE](https://puppet
 
 This module is compliant with the Puppet Development Kit [(PDK)](https://puppet.com/docs/pdk/1.x/pdk_install.html), which provides tools to help run unit tests on the module and validate the modules' metadata, syntax, and style.
 
-*Note:* To run static validations and unit tests against this module using the [`pdk validate`](https://puppet.com/docs/pdk/1.x/pdk_testing.html#concept-3313) and [`pdk test unit`](https://puppet.com/docs/pdk/1.x/pdk_testing.html#concept-3975) commands, you must have Puppet 5 or higher installed. In the following examples, we have specified Puppet 5.3.6.
+*Note:* To run static validations and unit tests against this module using the [`pdk validate`](https://puppet.com/docs/pdk/1.x/pdk_testing.html#concept-3313) and [`pdk test unit`](https://puppet.com/docs/pdk/1.x/pdk_testing.html#concept-3975) commands, you must be using Puppet 5 or higher. In the following examples, we have specified Puppet 5.5.3.
 
 To validate the metadata.json file, run the following command:
 
 ```
-pdk validate metadata --puppet-version='5.3.6'
+pdk validate metadata --puppet-version='5.5.3'
 ```
 
 To validate the Puppet code and syntax, run the following command:
 
 ```
-pdk validate puppet --puppet-version='5.3.6'
+pdk validate puppet --puppet-version='5.5.3'
 ```
 
 To unit test the module, run the following command:
 
 ```
-pdk test unit --puppet-version='5.3.6'
+pdk test unit --puppet-version='5.5.3'
 ```
 
 ## Reference
@@ -95,25 +95,29 @@ pdk test unit --puppet-version='5.3.6'
 
 #### `env`
 
-Sets the environment variables for Kubectl to connect to the Kubernetes cluster.
+Specifies the environment variables for Kubectl to connect to the Kubernetes cluster.
 
 Defaults to `['HOME=/root', 'KUBECONFIG=/etc/kubernetes/admin.conf']`.
 
 #### `path`
 
-Sets the PATH for all exec resources in the module.
+Specifies the PATH for all exec resources in the module.
 
 Defaults to `['/usr/bin', '/bin']`.
 
 #### `version`
 
-Sets the version of rook to install.
+Specifies the version of rook to install.
 
 Defaults to `'v0.7.0'`.
 
 ## Limitations
 
-This module is compatible only with the `Linux` kernel.
+This module is compatible only with the `Linux` kernel and supports:
+
+* Puppet 4 or higher.
+* Kubernetes [1.10.x](https://github.com/kubernetes/kubernetes/blob/master/CHANGELOG.md#v160) or higher.
+* Ruby 2.3.0 or higher.
 
 ## Development
 
