@@ -1,3 +1,7 @@
+# Version 0.1.6
+
+This release uses the PDK convert functionality which in return makes the module PDK compliant
+
 # Version 0.1.5
 
 Changing default env param value for use with upstream k8s repo
