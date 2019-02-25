@@ -44,9 +44,10 @@
 #
 class rook (
 
-  Array $env           = $rook::params::env,
-  Array $path          = $rook::params::path,
-  String $version      = $rook::params::version,
+  Array $env               = $rook::params::env,
+  Array $path              = $rook::params::path,
+  String $version          = $rook::params::version,
+  Boolean $default_storage = $rook::params::default_storage,
 
 ) inherits rook::params {
 

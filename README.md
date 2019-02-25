@@ -111,6 +111,12 @@ Specifies the version of rook to install.
 
 Defaults to `'v0.7.0'`.
 
+#### `default_storage`
+
+Specifies whether to set the `rook-block` as the default storage class for the cluster
+
+Defaults to `true`
+
 ## Limitations
 
 This module is compatible only with the `Linux` kernel and supports:
