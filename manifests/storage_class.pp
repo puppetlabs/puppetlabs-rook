@@ -1,9 +1,10 @@
 # This class installs and configures the rook storgae class for block level storage
 
 class rook::storage_class (
-  Array $env      = $rook::env,
-  Array $path     = $rook::path,
-  String $version = $rook::version,
+  Array $env               = $rook::env,
+  Array $path              = $rook::path,
+  String $version          = $rook::version,
+  Boolean $default_storage = $rook::default_storage,
 
 ) {
 
@@ -76,5 +77,12 @@ class rook::storage_class (
     subscribe   => File['/tmp/rook-storage.yaml'],
     refreshonly => true,
     require     => File['/tmp/rook-storage.yaml'],
+  }
+  if $default_storage {
+    exec { 'Set default storage class':
+      command => 'kubectl patch storageclass rook-block -p \'{"metadata": {"annotations":{"storageclass.kubernetes.io/is-default-class":"true"}}}\'',
+      unless  => 'kubectl get storageclass rook-block | grep "rook-block (default)"',
+      require => Exec['Create storage class'],
+    }
   }
 }

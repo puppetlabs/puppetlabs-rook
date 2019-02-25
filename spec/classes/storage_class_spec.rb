@@ -4,7 +4,8 @@ describe 'rook::storage_class' do
     let (:params) { {
       'env' => ['HOME=/root', 'KUBECONFIG=/root/admin.conf'],
       'path' => ['/usr/bin', '/bin'],
-      'version' => 'v0.7.0'
+      'version' => 'v0.7.0',
+      'default_storage' => true,
       }}
     let(:facts) { {
         operatingsystem: 'CentOS',
@@ -20,5 +21,6 @@ describe 'rook::storage_class' do
     it { should contain_exec('Create rook operator').with_command('kubectl create -f rook-operator.yaml') }
     it { should contain_exec('Create rook cluster').with_command('kubectl create -f rook-cluster.yaml') }
     it { should contain_exec('Create storage class').with_command('kubectl create -f rook-storage.yaml') }
+    it { should contain_exec('Set default storage class').with_command('kubectl patch storageclass rook-block -p \'{"metadata": {"annotations":{"storageclass.kubernetes.io/is-default-class":"true"}}}\'') }
   end
 end
