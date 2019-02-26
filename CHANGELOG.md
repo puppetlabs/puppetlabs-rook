@@ -1,3 +1,9 @@
+# Version 0.2.0
+
+Patches rook-block storage class as default via param `default_storage`
+
+Updates dependencies
+
 # Version 0.1.6
 
 This release uses the PDK convert functionality which in return makes the module PDK compliant
