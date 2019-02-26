@@ -1,6 +1,6 @@
 {
   "name": "puppetlabs-rook",
-  "version": "0.1.6",
+  "version": "0.2.0",
   "author": "puppetlabs",
   "summary": "A module for installing and configuring rook https://rook.io",
   "license": "Apache-2.0",
@@ -14,7 +14,7 @@
     },
     {
       "name": "puppetlabs/translate",
-      "version_requirement": ">= 0.0.1 < 2.0.0"
+      "version_requirement": ">= 0.0.1 < 4.0.0"
     },
     {
       "name": "stahnma/epel",
