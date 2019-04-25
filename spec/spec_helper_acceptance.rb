@@ -41,6 +41,7 @@ RSpec.configure do |c|
       on host, puppet('module', 'install', 'puppetlabs-kubernetes'), { :acceptable_exit_codes => [0,1] }
       on host, puppet('module', 'install', 'puppetlabs-stdlib'), { :acceptable_exit_codes => [0,1] }
       on host, puppet('module', 'install', 'puppet-archive'), { :acceptable_exit_codes => [0,1] }
+      on host, puppet('module', 'install', 'stahnma-epel'), { :acceptable_exit_codes => [0,1] }
 
       # shell('echo "#{vmhostname}" > /etc/hostname')
       # shell("hostname #{vmhostname}")
@@ -125,15 +126,23 @@ EOS
 
         # Installing go, cfssl
         on(host, "cd  /etc/puppetlabs/code/environments/production/modules/kubernetes;rm -rf Gemfile.lock;bundle install --path vendor/bundle", acceptable_exit_codes: [0]).stdout
-        on(host, "curl -o go.tar.gz https://storage.googleapis.com/golang/go1.10.2.linux-amd64.tar.gz", acceptable_exit_codes: [0]).stdout
+        on(host, "curl -o go.tar.gz https://storage.googleapis.com/golang/go1.11.9.linux-amd64.tar.gz", acceptable_exit_codes: [0]).stdout
         on(host, "tar -C /usr/local -xzf go.tar.gz", acceptable_exit_codes: [0]).stdout
         on(host, "export PATH=$PATH:/usr/local/go/bin;go get -u github.com/cloudflare/cfssl/cmd/...", acceptable_exit_codes: [0]).stdout
         # Creating certs
-        on(host, "source ~/.bash_profile;rbenv global 2.3.1;rbenv local 2.3.1;export PATH=$PATH:/usr/local/go/bin;export PATH=$PATH:/root/go/bin;cd  /etc/puppetlabs/code/environments/production/modules/kubernetes/tooling;./kube_tool.rb -o #{os} -v 1.10.2 -r #{runtime} -c #{cni} -i \"#{vmhostname}:#{vmipaddr}\" -t \"#{vmipaddr}\" -a \"#{vmipaddr}\" -d true", acceptable_exit_codes: [0]).stdout
+        on(host, "source ~/.bash_profile;rbenv global 2.3.1;rbenv local 2.3.1;export PATH=$PATH:/usr/local/go/bin;export PATH=$PATH:/root/go/bin;cd  /etc/puppetlabs/code/environments/production/modules/kubernetes/tooling;./kube_tool.rb -o #{os} -v 1.13.5 -r #{runtime} -c #{cni} -i \"#{vmhostname}:#{vmipaddr}\" -t \"#{vmipaddr}\" -a \"#{vmipaddr}\" -d true", acceptable_exit_codes: [0]).stdout
         create_remote_file(host, "/etc/hosts", hosts_file)
         create_remote_file(host, "/tmp/nginx.yml", nginx)
         create_remote_file(host,"/etc/puppetlabs/puppet/hiera.yaml", hiera)
         on(host, 'cp /etc/puppetlabs/code/environments/production/modules/kubernetes/tooling/*.yaml /etc/puppetlabs/code/environments/production/hieradata/', acceptable_exit_codes: [0]).stdout
+
+        if fact('osfamily') == 'Debian'
+          on(host, 'sed -i /cni_network_provider/d /etc/puppetlabs/code/environments/production/hieradata/Debian.yaml', acceptable_exit_codes: [0]).stdout
+          on(host, 'echo "kubernetes::cni_network_provider: https://cloud.weave.works/k8s/net?k8s-version=1.13.5" >> /etc/puppetlabs/code/environments/production/hieradata/Debian.yaml', acceptable_exit_codes: [0]).stdout
+          on(host, 'echo "kubernetes::schedule_on_controller: true"  >> /etc/puppetlabs/code/environments/production/hieradata/Debian.yaml', acceptable_exit_codes: [0]).stdout
+          on(host, 'echo "kubernetes::taint_master: false" >> /etc/puppetlabs/code/environments/production/hieradata/Debian.yaml', acceptable_exit_codes: [0]).stdout
+          on(host, 'export KUBECONFIG=\'/etc/kubernetes/admin.conf\'', acceptable_exit_codes: [0]).stdout       
+        end
 
         # Disable swap
         on(host, 'swapoff -a')
