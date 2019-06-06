@@ -1,15 +1,22 @@
 #### Table of Contents
 
-1. [Description](#description)
-2. [Setup - The basics of getting started with rook](#setup)
-3. [Usage - Configuration options and additional functionality](#usage)
-   * [Tasks](#tasks)
-   * [Validating and unit testing the module](#validating-and-unit-testing-the-module)
-4. [Reference - An under-the-hood peek at what the module is doing and how](#reference)
-   * [Classes](#classes)
-   * [Parameters](#parameters)
-5. [Limitations - OS compatibility, etc.](#limitations)
-6. [Development - Guide for contributing to the module](#development)
+- [Description](#description)
+- [Setup](#setup)
+- [Usage](#usage)
+  - [Tasks](#tasks)
+  - [Validating and unit testing the module](#validating-and-unit-testing-the-module)
+- [Reference](#reference)
+  - [Classes](#classes)
+    - [Public Classes](#public-classes)
+    - [Private Classes](#private-classes)
+  - [Parameters](#parameters)
+    - [`env`](#env)
+    - [`path`](#path)
+    - [`version`](#version)
+    - [`default_storage`](#defaultstorage)
+- [Limitations](#limitations)
+- [Development](#development)
+  - [Contributing](#contributing)
 
 ## Description
 
@@ -133,4 +140,4 @@ If you have problems with this module, [contact Support](https://puppet.com/supp
 
 ### Contributing
 
-If you would like to add to this module, please follow the rules in the [CONTRIBUTING.md](https://github.com/puppetlabs/puppetlabs-rook/blob/master/CONTRIBUTING.md).
+If you would like to add to this module, please follow the rules in the [CONTRIBUTING.md](https://github.com/puppetlabs/puppetlabs-rook/blob/master/CONTRIBUTING.md). For more information, see our [module contribution guide.](https://puppet.com/docs/puppet/latest/contributing.html)
