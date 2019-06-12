@@ -25,7 +25,6 @@ AllCops:
   - spec/*
   - spec/acceptance/*
   - rakelib/*
-  - tasks/*
 inherit_from: ".rubocop_todo.yml"
 Metrics/LineLength:
   Description: People have wide screens, use them.

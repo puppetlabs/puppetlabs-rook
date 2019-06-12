@@ -55,7 +55,6 @@ Rakefile:
             - spec/*
             - spec/acceptance/*
             - rakelib/*
-            - tasks/*
 
 spec/spec_helper.rb:
   mock_with: ':rspec'
