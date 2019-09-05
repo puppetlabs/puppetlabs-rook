@@ -1,12 +1,12 @@
 {
   "name": "puppetlabs-rook",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "author": "puppetlabs",
   "summary": "A module for installing and configuring rook https://rook.io",
   "license": "Apache-2.0",
-  "source": "https://github.com/puppetlabs/puppetlabs-rook.git",
+  "source": "https://github.com/puppetlabs/puppetlabs-rook",
   "project_page": "https://github.com/puppetlabs/puppetlabs-rook",
-  "issues_url": "https://github.com/puppetlabs/puppetlabs-rook/issues",
+  "issues_url": "https://tickets.puppetlabs.com/browse/MODULES",
   "dependencies": [
     {
       "name": "puppetlabs-stdlib",
