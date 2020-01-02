@@ -1,9 +1,41 @@
 ---
-".gitlab-ci.yml":
+.gitlab-ci.yml:
   delete: true
-".rubocop.yml":
+
+.travis.yml:
+  deploy_to_forge:
+    enabled: false
+  branches:
+  - release
+  simplecov: true
+  notifications:
+    slack:
+      secure: >-
+        0FO9oujt9AHh9HK5V8g0vumGitjHupE9fmc9LSngmIQjtzqSOdOVNpxTA+EIBqdjV2IPDQi0dlzxVxwyN+yCxABaY9YK0yiPk1YgmTWsCOZGE7PKo0Nh9x+7LlWapk4oFDMb5FQ0XpONIa72qJNl4A70LV1OV2lA+rYf/oPWrZOiJoCYQUjIpx2BmET90rn1tie3+1chWAlOWru6o/FB8ERm9phrAfkSoPMb5QTccOUAAAm7bvvYFiakjAnoYIg1zoVVCZFB2doiAaYDD5EBbJrL+tb2lUB+mVjL/jExV4ST1FedbVfTWmqIioFrSbHA+ufA+JtUAycDGCCxXh57f3Y0oUZo+OiNw6RAkphcpHxgcQQs0HDQxwRQ2p2iII2K0UP93uLkJxLHfbW8pYVfTrtSKmP4R4m6VE03hsJZCMPjJpO9mlIcNPJTs8djg9Oy7IpgnCQrfjNVWEWCHeyxTKK7zSCgJWEmJhrc3vTjAVEF+Z1DEABCSVXUoIvuEzBqsXhRWMFziFf/y2yuRBTlSxNcs7IrjOIF3THkQ+Fe1/XjYbWb+1B0pQOytP0q8mfuJn/J8Q2U70/GXSA/XPYN6uGyN+thqDgnjfUuK/NoO97o+n0jLmhZoLADkLbusgc6rUsyI4BbkhOKC4YIxW51rSRpkyofY8E1ZANb4pg+vtA=
+
+appveyor.yml:
+  delete: true
+
+Gemfile:
+  optional:
+    ':development':
+      - gem: 'github_changelog_generator'
+        git: 'https://github.com/skywinder/github-changelog-generator'
+        ref: '20ee04ba1234e9e83eb2ffb5056e23d641c7a018'
+        condition: "Gem::Version.new(RUBY_VERSION.dup) >= Gem::Version.new('2.2.2')"
+     
+Rakefile:
+  changelog_user: puppetlabs
+  requires:
+    - puppet-lint/tasks/puppet-lint
+    - puppetlabs_spec_helper/rake_tasks
+    - metadata-json-lint/rake_task
+    - rspec_junit_formatter
+    - puppet_pot_generator/rake_tasks
+
+.rubocop.yml:
   include_todos:
-    inherit_from: ".rubocop_todo.yml"
+    inherit_from: '.rubocop_todo.yml'
   profiles:
     strict:
       configs:
@@ -17,43 +49,10 @@
           - spec/*
           - spec/acceptance/*
           - rakelib/*
-".travis.yml":
-  deploy_to_forge:
-    enabled: false
-  branches:
-  - release
-  simplecov: true
-  notifications:
-    slack:
-      secure: >-
-        0FO9oujt9AHh9HK5V8g0vumGitjHupE9fmc9LSngmIQjtzqSOdOVNpxTA+EIBqdjV2IPDQi0dlzxVxwyN+yCxABaY9YK0yiPk1YgmTWsCOZGE7PKo0Nh9x+7LlWapk4oFDMb5FQ0XpONIa72qJNl4A70LV1OV2lA+rYf/oPWrZOiJoCYQUjIpx2BmET90rn1tie3+1chWAlOWru6o/FB8ERm9phrAfkSoPMb5QTccOUAAAm7bvvYFiakjAnoYIg1zoVVCZFB2doiAaYDD5EBbJrL+tb2lUB+mVjL/jExV4ST1FedbVfTWmqIioFrSbHA+ufA+JtUAycDGCCxXh57f3Y0oUZo+OiNw6RAkphcpHxgcQQs0HDQxwRQ2p2iII2K0UP93uLkJxLHfbW8pYVfTrtSKmP4R4m6VE03hsJZCMPjJpO9mlIcNPJTs8djg9Oy7IpgnCQrfjNVWEWCHeyxTKK7zSCgJWEmJhrc3vTjAVEF+Z1DEABCSVXUoIvuEzBqsXhRWMFziFf/y2yuRBTlSxNcs7IrjOIF3THkQ+Fe1/XjYbWb+1B0pQOytP0q8mfuJn/J8Q2U70/GXSA/XPYN6uGyN+thqDgnjfUuK/NoO97o+n0jLmhZoLADkLbusgc6rUsyI4BbkhOKC4YIxW51rSRpkyofY8E1ZANb4pg+vtA=
-appveyor.yml:
-  delete: true
-Gemfile:
-  required:
-    ":system_tests":
-    - gem: puppet-module-posix-system-r#{minor_version}
-      platforms: ruby
-    - gem: puppet-module-win-system-r#{minor_version}
-      platforms:
-      - mswin
-      - mingw
-      - x64_mingw
-  optional:
-    ":development":
-    - gem: github_changelog_generator
-      git: https://github.com/skywinder/github-changelog-generator
-      ref: 20ee04ba1234e9e83eb2ffb5056e23d641c7a018
-      condition: Gem::Version.new(RUBY_VERSION.dup) >= Gem::Version.new('2.2.2')
-Rakefile:
-  changelog_user: puppetlabs
-  requires:
-  - puppet-lint/tasks/puppet-lint
-  - puppetlabs_spec_helper/rake_tasks
-  - metadata-json-lint/rake_task
-  - rspec_junit_formatter
-  - puppet_pot_generator/rake_tasks
+          - plans/*.pp
+          - tasks/*
+
 spec/spec_helper.rb:
-  mock_with: ":rspec"
+  mock_with: ':rspec'
   coverage_report: true
   hiera_config_ruby: File.expand_path(File.join(File.dirname(__FILE__), 'fixtures/hiera/hiera.yaml'))
