@@ -1,15 +1,15 @@
 #### Table of Contents
 
-1. [Description](#description)
-2. [Setup - The basics of getting started with rook](#setup)
-3. [Usage - Configuration options and additional functionality](#usage)
-   * [Tasks](#tasks)
-   * [Validating and unit testing the module](#validating-and-unit-testing-the-module)
-4. [Reference - An under-the-hood peek at what the module is doing and how](#reference)
-   * [Classes](#classes)
-   * [Parameters](#parameters)
-5. [Limitations - OS compatibility, etc.](#limitations)
-6. [Development - Guide for contributing to the module](#development)
+- [Description](#Description)
+- [Setup](#Setup)
+- [Usage](#Usage)
+  - [Tasks](#Tasks)
+  - [Validating and unit testing the module](#Validating-and-unit-testing-the-module)
+- [Reference](#Reference)
+  - [Classes	For information on the classes and types, see the REFERENCE.md.](#Classes-For-information-on-the-classes-and-types-see-the-REFERENCEmd)
+- [Limitations](#Limitations)
+- [Development](#Development)
+  - [Contributing](#Contributing)
 
 ## Description
 
@@ -79,43 +79,8 @@ pdk test unit --puppet-version='5.5.3'
 
 ## Reference
 
-### Classes
 
-#### Public Classes
-
-* `rook`: Installs and configures rook.
-* `rook::params`
-
-#### Private Classes
-
-* `rook::packages`: Installs the Ceph packages.
-* `rook::storage_class`: Installs and configures the Rook storage class for block level storage.
-
-### Parameters
-
-#### `env`
-
-Specifies the environment variables for Kubectl to connect to the Kubernetes cluster.
-
-Defaults to `['HOME=/root', 'KUBECONFIG=/etc/kubernetes/admin.conf']`.
-
-#### `path`
-
-Specifies the PATH for all exec resources in the module.
-
-Defaults to `['/usr/bin', '/bin']`.
-
-#### `version`
-
-Specifies the version of rook to install.
-
-Defaults to `'v0.7.0'`.
-
-#### `default_storage`
-
-Specifies whether to set the `rook-block` as the default storage class for the cluster
-
-Defaults to `true`
+### Classes	For information on the classes and types, see the [REFERENCE.md](https://github.com/puppetlabs/puppetlabs-rook/blob/master/REFERENCE.md).
 
 ## Limitations
 

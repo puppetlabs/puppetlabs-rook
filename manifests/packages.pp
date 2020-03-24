@@ -1,5 +1,7 @@
-# This class installs packages that rook needs
-
+# @summary
+# Installs the Ceph packages.
+#
+# @api private
 class rook::packages {
 
     $rook_packages = $::operatingsystem ? {

@@ -1,46 +1,22 @@
-# Class: rook
-# ===========================
+
+# @summary
+#   This module installs and configures Rook on a Kubernetes cluster.
 #
-# Full description of class rook here.
+# @param env
+#    Specifies the environment variables for Kubectl to connect to the Kubernetes cluster.
+#    Defaults to `['HOME=/root', 'KUBECONFIG=/etc/kubernetes/admin.conf']`.
+# 
+# @param path
+#    Specifies the PATH for all exec resources in the module.
+#    Defaults to `['/usr/bin', '/bin']`.
 #
-# Parameters
-# ----------
+# @param version
+#    Specifies the version of rook to install.
+#    Defaults to `'v0.7.0'`.
 #
-# Document parameters here.
-#
-# * `sample parameter`
-# Explanation of what this parameter affects and what it defaults to.
-# e.g. "Specify one or more upstream ntp servers as an array."
-#
-# Variables
-# ----------
-#
-# Here you should define a list of variables that this module would require.
-#
-# * `sample variable`
-#  Explanation of how this variable affects the function of this class and if
-#  it has a default. e.g. "The parameter enc_ntp_servers must be set by the
-#  External Node Classifier as a comma separated list of hostnames." (Note,
-#  global variables should be avoided in favor of class parameters as
-#  of Puppet 2.6.)
-#
-# Examples
-# --------
-#
-# @example
-#    class { 'rook':
-#      servers => [ 'pool.ntp.org', 'ntp.local.company.com' ],
-#    }
-#
-# Authors
-# -------
-#
-# Author Name <author@domain.com>
-#
-# Copyright
-# ---------
-#
-# Copyright 2017 Your name here, unless otherwise noted.
+# @param default_storage
+#    Specifies whether to set the rook-block as the default storage class for the cluster
+#    Defaults to `true`
 #
 class rook (
 
