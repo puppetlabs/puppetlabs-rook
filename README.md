@@ -6,7 +6,6 @@
   - [Tasks](#Tasks)
   - [Validating and unit testing the module](#Validating-and-unit-testing-the-module)
 - [Reference](#Reference)
-  - [Classes	For information on the classes and types, see the REFERENCE.md.](#Classes-For-information-on-the-classes-and-types-see-the-REFERENCEmd)
 - [Limitations](#Limitations)
 - [Development](#Development)
   - [Contributing](#Contributing)
@@ -79,8 +78,7 @@ pdk test unit --puppet-version='5.5.3'
 
 ## Reference
 
-
-### Classes	For information on the classes and types, see the [REFERENCE.md](https://github.com/puppetlabs/puppetlabs-rook/blob/master/REFERENCE.md).
+[REFERENCE.md](https://github.com/puppetlabs/puppetlabs-rook/blob/master/REFERENCE.md).
 
 ## Limitations
 
