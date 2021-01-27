@@ -78,14 +78,14 @@ pdk test unit --puppet-version='5.5.3'
 
 ## Reference
 
-[REFERENCE.md](https://github.com/puppetlabs/puppetlabs-rook/blob/master/REFERENCE.md).
+[REFERENCE.md](https://github.com/puppetlabs/puppetlabs-rook/blob/main/REFERENCE.md).
 
 ## Limitations
 
 This module is compatible only with the `Linux` kernel and supports:
 
 * Puppet 4 or higher.
-* Kubernetes [1.10.x](https://github.com/kubernetes/kubernetes/blob/master/CHANGELOG.md#v160) or higher.
+* Kubernetes [1.10.x](https://github.com/kubernetes/kubernetes/blob/main/CHANGELOG.md#v160) or higher.
 * Ruby 2.3.0 or higher.
 
 ## Development
@@ -96,7 +96,7 @@ If you have problems with this module, [contact Support](https://puppet.com/supp
 
 ### Contributing
 
-If you would like to add to this module, please follow the rules in the [CONTRIBUTING.md](https://github.com/puppetlabs/puppetlabs-rook/blob/master/CONTRIBUTING.md).
+If you would like to add to this module, please follow the rules in the [CONTRIBUTING.md](https://github.com/puppetlabs/puppetlabs-rook/blob/main/CONTRIBUTING.md).
 
 To run the acceptance tests you can use Puppet Litmus with the Vagrant provider by using the following commands:
 
