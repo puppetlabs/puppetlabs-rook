@@ -6,10 +6,6 @@ All notable changes to this project will be documented in this file. The format 
 
 [Full Changelog](https://github.com/puppetlabs/puppetlabs-rook/compare/v0.4.0...v1.0.0)
 
-### Changed
-
-- pdksync - Remove Puppet 5 from testing and bump minimal version to 6.0.0 [\#103](https://github.com/puppetlabs/puppetlabs-rook/pull/103) ([carabasdaniel](https://github.com/carabasdaniel))
-
 ### Added
 
 - pdksync - \(feat\) - Add support for Puppet 7 [\#96](https://github.com/puppetlabs/puppetlabs-rook/pull/96) ([daianamezdrea](https://github.com/daianamezdrea))
