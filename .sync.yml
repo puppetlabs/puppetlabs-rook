@@ -12,6 +12,16 @@ Gemfile:
 
 Rakefile:
   changelog_user: puppetlabs
+  extras:
+    - |
+      require 'rspec/core/rake_task'
+      namespace :rook do
+        RSpec::Core::RakeTask.new(:integration) do |t|
+          t.pattern = 'spec/acceptance/**{,/*/**}/*_spec.rb'
+          t.rspec_opts = "--tag integration"
+        end
+      end
+
 
 .rubocop.yml:
   include_todos:
@@ -40,6 +50,10 @@ spec/spec_helper.rb:
   unmanaged: false
 .gitpod.yml:
   unmanaged: false
+.github/workflows/nightly.yml:
+  unmanaged: true
+.github/workflows/pr_test.yml:
+  unmanaged: true
 .github/workflows/auto_release.yml:
   unmanaged: false
 .github/workflows/spec.yml:

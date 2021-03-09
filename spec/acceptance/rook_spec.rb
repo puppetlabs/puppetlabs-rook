@@ -3,7 +3,7 @@ require 'spec_helper_acceptance'
 describe 'the rook module' do
 
   describe 'kubernetes class' do
-    context 'it should install the module and run' do
+    context 'it should install the module and run', :integration do
 
       pp = <<-MANIFEST
       if $::osfamily == 'RedHat'{
