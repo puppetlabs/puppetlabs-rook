@@ -27,10 +27,6 @@ All notable changes to this project will be documented in this file. The format 
 
 [Full Changelog](https://github.com/puppetlabs/puppetlabs-rook/compare/0.2.0...v0.3.0)
 
-### Changed
-
-- \(FM-8100\) Update minimum supported Puppet version to 5.5.10 [\#46](https://github.com/puppetlabs/puppetlabs-rook/pull/46) ([sheenaajay](https://github.com/sheenaajay))
-
 ## 0.2.0
 
 Patches rook-block storage class as default via param `default_storage`
