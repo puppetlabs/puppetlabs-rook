@@ -2,19 +2,6 @@
 .gitlab-ci.yml:
   delete: true
 
-.travis.yml:
-  global_env:
-    - HONEYCOMB_WRITEKEY="7f3c63a70eecc61d635917de46bea4e6",HONEYCOMB_DATASET="litmus tests"
-  deploy_to_forge:
-    enabled: false
-  branches:
-  - release
-  simplecov: true
-  notifications:
-    slack:
-      secure: >-
-        0FO9oujt9AHh9HK5V8g0vumGitjHupE9fmc9LSngmIQjtzqSOdOVNpxTA+EIBqdjV2IPDQi0dlzxVxwyN+yCxABaY9YK0yiPk1YgmTWsCOZGE7PKo0Nh9x+7LlWapk4oFDMb5FQ0XpONIa72qJNl4A70LV1OV2lA+rYf/oPWrZOiJoCYQUjIpx2BmET90rn1tie3+1chWAlOWru6o/FB8ERm9phrAfkSoPMb5QTccOUAAAm7bvvYFiakjAnoYIg1zoVVCZFB2doiAaYDD5EBbJrL+tb2lUB+mVjL/jExV4ST1FedbVfTWmqIioFrSbHA+ufA+JtUAycDGCCxXh57f3Y0oUZo+OiNw6RAkphcpHxgcQQs0HDQxwRQ2p2iII2K0UP93uLkJxLHfbW8pYVfTrtSKmP4R4m6VE03hsJZCMPjJpO9mlIcNPJTs8djg9Oy7IpgnCQrfjNVWEWCHeyxTKK7zSCgJWEmJhrc3vTjAVEF+Z1DEABCSVXUoIvuEzBqsXhRWMFziFf/y2yuRBTlSxNcs7IrjOIF3THkQ+Fe1/XjYbWb+1B0pQOytP0q8mfuJn/J8Q2U70/GXSA/XPYN6uGyN+thqDgnjfUuK/NoO97o+n0jLmhZoLADkLbusgc6rUsyI4BbkhOKC4YIxW51rSRpkyofY8E1ZANb4pg+vtA=
-
 appveyor.yml:
   delete: true
 
@@ -55,3 +42,10 @@ spec/spec_helper.rb:
   unmanaged: false
 .github/workflows/auto_release.yml:
   unmanaged: false
+.github/workflows/spec.yml:
+  checks: 'syntax lint metadata_lint check:symlinks check:git_ignore check:dot_underscore check:test_file rubocop'
+  unmanaged: false
+.github/workflows/release.yml:
+  unmanaged: false
+.travis.yml:
+  delete: true
