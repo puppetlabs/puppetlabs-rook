@@ -23,6 +23,10 @@ All notable changes to this project will be documented in this file. The format 
 
 - \(FM-8205\) port module to litmus [\#69](https://github.com/puppetlabs/puppetlabs-rook/pull/69) ([sheenaajay](https://github.com/sheenaajay))
 
+### UNCATEGORIZED PRS; LABEL THEM ON GITHUB
+
+- adding in default storage class [\#39](https://github.com/puppetlabs/puppetlabs-rook/pull/39) ([davejrt](https://github.com/davejrt))
+
 ## [v0.3.0](https://github.com/puppetlabs/puppetlabs-rook/tree/v0.3.0) (2019-09-05)
 
 [Full Changelog](https://github.com/puppetlabs/puppetlabs-rook/compare/0.2.0...v0.3.0)
