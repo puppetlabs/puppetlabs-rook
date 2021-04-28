@@ -147,21 +147,21 @@ jobs:
         echo STEP_START=$(date +%s) >> $GITHUB_ENV
         echo ::endgroup::
 
-    - name: Start SSH session
-      uses: luchihoratiu/debug-via-ssh@main
-      with:
-        NGROK_AUTH_TOKEN: ${{ secrets.NGROK_AUTH_TOKEN }}
-        SSH_PASS: ${{ secrets.SSH_PASS }}
+  #  - name: Start SSH session
+  #    uses: luchihoratiu/debug-via-ssh@main
+  #    with:
+  #      NGROK_AUTH_TOKEN: ${{ secrets.NGROK_AUTH_TOKEN }}
+  #      SSH_PASS: ${{ secrets.SSH_PASS }}
 
-    - name: Run integration tests
-      run: |
-        buildevents cmd $TRACE_ID $STEP_ID 'rake rook:integration' -- bundle exec rake rook:integration
-    - name: "Honeycomb: Record integration testing times"
-      if: ${{ always() }}
-      run: |
-        buildevents step $TRACE_ID $STEP_ID $STEP_START 'Run integration tests'
-        echo STEP_ID=${{ matrix.platform }}-${{ matrix.collection }}-4 >> $GITHUB_ENV
-        echo STEP_START=$(date +%s) >> $GITHUB_ENV
+  #  - name: Run integration tests
+  #    run: |
+  #      buildevents cmd $TRACE_ID $STEP_ID 'rake rook:integration' -- bundle exec rake rook:integration
+  #  - name: "Honeycomb: Record integration testing times"
+  #    if: ${{ always() }}
+  #    run: |
+  #      buildevents step $TRACE_ID $STEP_ID $STEP_START 'Run integration tests'
+  #      echo STEP_ID=${{ matrix.platform }}-${{ matrix.collection }}-4 >> $GITHUB_ENV
+  #      echo STEP_START=$(date +%s) >> $GITHUB_ENV
     #- name: Remove test environment
     #  if: ${{ always() }}
     #  continue-on-error: true
