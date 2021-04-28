@@ -51,41 +51,6 @@ def fetch_ip_hostname_by_role(role)
    else
      int_ipaddr = run_shell("ip route get 8.8.8.8 | awk '{print $NF; exit}'").stdout.strip
    end
-<<<<<<< HEAD
-   vmos = os[:family]
-
-   puts "Running acceptance test on #{vmhostname} with address #{vmipaddr} and OS #{vmos}"
-
-   run_shell('puppet module install puppetlabs-kubernetes')
-   run_shell('puppet module install puppetlabs-helm')
-   run_shell('puppet module install puppetlabs-stdlib')
-   run_shell('puppet module install stahnma-epel')
-
-   run_shell('puppet module install puppet-archive')
-
-   run_shell('puppet module install puppetlabs-docker')
-
-hosts_file = <<-EOS
-127.0.0.1 localhost #{vmhostname} kubernetes kube-control-plane
-#{vmipaddr} #{vmhostname}
-#{vmipaddr} kubernetes
-#{vmipaddr} kube-master
-      EOS
-
-      nginx = <<-EOS
-apiVersion: v1
-kind: Namespace
-metadata:
-  name: nginx
----
-apiVersion: apps/v1beta1
-kind: Deployment
-metadata:
-  name: my-nginx
-  namespace: nginx
-spec:
-  template:
-=======
    return hostname, ipaddr, int_ipaddr
 end
 
@@ -125,7 +90,6 @@ def configure_puppet_server(controller, worker1, worker2)
     }
     class { 'helm':
       version           => '2.17.0',
-      env  => ['HOME=/root', 'KUBECONFIG=/etc/kubernetes/admin.conf'],
     }
     include 'rook'
   }
@@ -196,7 +160,11 @@ RSpec.configure do |c|
 
     run_shell('puppet module install puppetlabs-kubernetes')
     run_shell('puppet module install puppetlabs-helm')
+    run_shell('puppet module install puppetlabs-stdlib')
     run_shell('puppet module install stahnma-epel')
+    run_shell('puppet module install puppetlabs-translate')
+    run_shell('puppet module install puppet-archive')
+    run_shell('puppet module install puppetlabs-docker')
 
     nginx = <<-EOS
     apiVersion: v1
@@ -206,7 +174,6 @@ RSpec.configure do |c|
     ---
     apiVersion: apps/v1beta1
     kind: Deployment
->>>>>>> 64f21a5... (maint) port module to cloudci
     metadata:
       name: my-nginx
       namespace: nginx

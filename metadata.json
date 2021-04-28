@@ -71,5 +71,9 @@
   ],
   "pdk-version": "2.0.0",
   "template-url": "https://github.com/puppetlabs/pdk-templates.git#main",
+<<<<<<< HEAD
   "template-ref": "heads/main-0-ge04486b"
+=======
+  "template-ref": "heads/main-0-gc7dd78b"
+>>>>>>> 64f21a5... (maint) port module to cloudci
 }
