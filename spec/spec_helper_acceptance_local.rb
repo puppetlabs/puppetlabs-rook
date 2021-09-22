@@ -51,43 +51,131 @@ def fetch_ip_hostname_by_role(role)
    else
      int_ipaddr = run_shell("ip route get 8.8.8.8 | awk '{print $NF; exit}'").stdout.strip
    end
-   vmos = os[:family]
+   return hostname, ipaddr, int_ipaddr
+end
 
-   puts "Running acceptance test on #{vmhostname} with address #{vmipaddr} and OS #{vmos}"
+def change_target_host(role)
+  @orig_target_host = ENV['TARGET_HOST']
+  ENV['TARGET_HOST'] = target_roles(role)[0][:name]
+end
 
-   run_shell('puppet module install puppetlabs-kubernetes')
-   run_shell('puppet module install puppetlabs-helm')
-   run_shell('puppet module install puppetlabs-stdlib')
-   run_shell('puppet module install stahnma-epel')
+def reset_target_host
+  ENV['TARGET_HOST'] = @orig_target_host
+end
 
-   run_shell('puppet module install puppet-archive')
+def configure_puppet_server(controller, worker1, worker2)
+  # Configure the puppet server
+  ENV['TARGET_HOST'] = target_roles('controller')[0][:name]
+  run_shell('systemctl start puppetserver')
+  run_shell('systemctl enable puppetserver')
+  execute_agent('controller')
+  # Configure the puppet agents
+  configure_puppet_agent('worker1')
+  puppet_cert_sign
+  configure_puppet_agent('worker2')
+  puppet_cert_sign
+  # Create site.pp
+  site_pp = <<-EOS
+  node /#{controller}/ {
+    class {'kubernetes':
+      kubernetes_version => '1.16.6',
+      kubernetes_package_version => '1.16.6',
+      controller_address => "$::ipaddress:6443",
+      container_runtime => 'docker',
+      manage_docker => false,
+      controller => true,
+      schedule_on_controller => true,
+      environment  => ['HOME=/root', 'KUBECONFIG=/etc/kubernetes/admin.conf'],
+      ignore_preflight_errors => ['NumCPU','ExternalEtcdVersion'],
+      cgroup_driver => 'cgroupfs',
+    }
+    class { 'helm':
+      version           => '2.17.0',
+    }
+    include rook
+  }
+  node /#{worker1}/ {
+    class {'kubernetes':
+      worker => true,
+      manage_docker => false,
+      cgroup_driver => 'cgroupfs',
+    }
+  }
+  node /#{worker2}/  {
+    class {'kubernetes':
+      worker => true,
+      manage_docker => false,
+      cgroup_driver => 'cgroupfs',
+    }
+  }
+  EOS
+  ENV['TARGET_HOST'] = target_roles('controller')[0][:name]
+  create_remote_file("site","/etc/puppetlabs/code/environments/production/manifests/site.pp", site_pp)
+  run_shell('chmod 644 /etc/puppetlabs/code/environments/production/manifests/site.pp')
+end
 
-   run_shell('puppet module install puppetlabs-docker')
+def configure_puppet_agent(role)
+  # Configure the puppet agents
+  ENV['TARGET_HOST'] = target_roles(role)[0][:name]
+  run_shell('systemctl start puppet')
+  run_shell('systemctl enable puppet')
+  execute_agent(role)
+end
 
-hosts_file = <<-EOS
-127.0.0.1 localhost #{vmhostname} kubernetes kube-control-plane
-#{vmipaddr} #{vmhostname}
-#{vmipaddr} kubernetes
-#{vmipaddr} kube-master
-      EOS
+def puppet_cert_sign
+  # Sign the certs
+  ENV['TARGET_HOST'] = target_roles('controller')[0][:name]
+  run_shell("puppetserver ca sign --all", expect_failures: true)
+end
 
-      nginx = <<-EOS
-apiVersion: v1
-kind: Namespace
-metadata:
-  name: nginx
----
-apiVersion: apps/v1beta1
-kind: Deployment
-metadata:
-  name: my-nginx
-  namespace: nginx
-spec:
-  template:
+def clear_certs(role)
+  ENV['TARGET_HOST'] = target_roles(role)[0][:name]
+  run_shell('rm -rf /etc/kubernetes/kubelet.conf /etc/kubernetes/pki/ca.crt /etc/kubernetes/bootstrap-kubelet.conf')
+end
+
+def execute_agent(role)
+  ENV['TARGET_HOST'] = target_roles(role)[0][:name]
+  run_shell('puppet agent --test', expect_failures: true)
+end
+
+RSpec.configure do |c|
+  c.before :suite do
+    # Fetch hostname and  ip adress for each node
+    hostname1, ipaddr1, int_ipaddr1 =  fetch_ip_hostname_by_role('controller')
+    hostname2, ipaddr2, int_ipaddr2 =  fetch_ip_hostname_by_role('worker1')
+    hostname3, ipaddr3, int_ipaddr3 =  fetch_ip_hostname_by_role('worker2')
+    if c.filter.rules.key? :integration
+      ENV['TARGET_HOST'] = target_roles('controller')[0][:name]
+      ['controller', 'worker1', 'worker2'].each { |node|
+        ENV['TARGET_HOST'] = target_roles(node)[0][:name]
+        run_shell("echo #{int_ipaddr1} puppet  >> /etc/hosts")
+      }
+      configure_puppet_server(hostname1, hostname2, hostname3)
+    else
+      c.filter_run_excluding :integration
+    end
+    ENV['TARGET_HOST'] = target_roles('controller')[0][:name]
+    family = fetch_platform_by_node(ENV['TARGET_HOST'])
+
+    puts "Running acceptance test on #{hostname1} with address #{ipaddr1} and OS #{family}"
+
+    # Adding this since dependent modules are not updated to install the latest version of stdlib module and k8 module is failing with conflict.
+    run_shell('puppet module uninstall puppetlabs-stdlib --force', expect_failures: true)
+    run_shell('puppet module install puppetlabs-kubernetes')
+    run_shell('puppet module install puppetlabs-helm')
+    run_shell('puppet module install puppetlabs-docker')
+
+    nginx = <<-EOS
+    ---
+    apiVersion: apps/v1
+    kind: Deployment
     metadata:
       name: my-nginx
-      namespace: nginx
     spec:
+      selector:
+        matchLabels:
+          run: my-nginx
+      replicas: 2
       template:
         metadata:
           labels:
@@ -95,7 +183,7 @@ spec:
         spec:
           containers:
           - name: my-nginx
-            image: nginx:1.12-alpine
+            image: nginx
             ports:
             - containerPort: 80
     ---
@@ -103,7 +191,6 @@ spec:
     kind: Service
     metadata:
       name: my-nginx
-      namespace: nginx
       labels:
         run: my-nginx
     spec:
@@ -139,8 +226,8 @@ EOS
 name=Kubernetes
 baseurl=https://packages.cloud.google.com/yum/repos/kubernetes-el7-x86_64
 enabled=1
-gpgcheck=1
-repo_gpgcheck=1
+gpgcheck=0
+repo_gpgcheck=0
 gpgkey=https://packages.cloud.google.com/yum/doc/yum-key.gpg https://packages.cloud.google.com/yum/doc/rpm-package-key.gpg
 EOS
   pp = <<-PUPPETCODE
@@ -221,6 +308,7 @@ EOS
   run_shell("export KUBECONFIG=\'/etc/kubernetes/admin.conf\'")
   execute_agent('controller')
   execute_agent('worker1')
+  execute_agent('worker2')
   puppet_cert_sign
 end
 end
