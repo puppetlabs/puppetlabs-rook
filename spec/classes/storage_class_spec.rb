@@ -1,4 +1,5 @@
 require 'spec_helper'
+
 describe 'rook::storage_class' do
   context 'with default values for all parameters' do
     let (:params) { {
@@ -6,15 +7,13 @@ describe 'rook::storage_class' do
       'path' => ['/usr/bin', '/bin'],
       'version' => 'v0.7.0',
       'default_storage' => true,
-      }}
-    let(:facts) { {
-        operatingsystem: 'CentOS',
-    }}
+    } }
+    let(:facts) { on_supported_os['centos-7-x86_64'] }
 
     rook_files = ['rook-operator.yaml','rook-cluster.yaml', 'rook-storage.yaml']
 
     rook_files.each do | file |
-      it { should contain_file("/tmp/#{file}").with({ :ensure => 'present' })}
+      it { should contain_file("/tmp/#{file}").with({ :ensure => 'present' }) }
     end
 
     it { should contain_exec('Create rook namespace').with_command('kubectl create namespace rook') }
