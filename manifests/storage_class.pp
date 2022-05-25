@@ -7,9 +7,7 @@ class rook::storage_class (
   Array $path              = $rook::path,
   String $version          = $rook::version,
   Boolean $default_storage = $rook::default_storage,
-
 ) {
-
   $rook_files = ['rook-operator.yaml','rook-cluster.yaml', 'rook-storage.yaml']
 
   Exec {
@@ -21,17 +19,16 @@ class rook::storage_class (
   }
 
   $rook_files.each | String $file | {
-      file { "/tmp/${file}":
-        ensure  => present,
-        content => template("rook/${file}.erb"),
-        }
+    file { "/tmp/${file}":
+      ensure  => present,
+      content => template("rook/${file}.erb"),
     }
+  }
 
   exec { 'Create rook namespace':
     command => 'kubectl create namespace rook',
     unless  => 'kubectl get namespace | grep rook',
     before  => Exec['Create rook operator'],
-
   }
 
   exec { 'Create rook operator':
@@ -43,14 +40,14 @@ class rook::storage_class (
     require     => File['/tmp/rook-operator.yaml'],
   }
 
-  exec {'Checking for the Rook operator to be ready':
+  exec { 'Checking for the Rook operator to be ready':
     command   => 'kubectl get pods -n rook-system| grep rook-operator | grep -w Running',
     logoutput => true,
     unless    => 'kubectl get pods -n rook-system| grep rook-operator | grep -w Running',
     require   => Exec['Create rook operator'],
   }
 
-  exec {'Checking for the Rook agent to be ready':
+  exec { 'Checking for the Rook agent to be ready':
     command   => 'kubectl get pods -n rook-system| grep rook-agent | grep -w Running',
     logoutput => true,
     unless    => 'kubectl get pods -n rook-system| grep rook-agent | grep -w Running',
@@ -66,7 +63,7 @@ class rook::storage_class (
     require     => File['/tmp/rook-cluster.yaml'],
   }
 
-  exec {'Checking for the Rook api to be ready':
+  exec { 'Checking for the Rook api to be ready':
     command   => 'kubectl get pods -n rook | grep rook-api | grep -w Running',
     logoutput => true,
     unless    => 'kubectl get pods -n rook | grep rook-api | grep -w Running',
@@ -80,6 +77,7 @@ class rook::storage_class (
     refreshonly => true,
     require     => File['/tmp/rook-storage.yaml'],
   }
+
   if $default_storage {
     exec { 'Set default storage class':
       command => 'kubectl patch storageclass rook-block -p \'{"metadata": {"annotations":{"storageclass.kubernetes.io/is-default-class":"true"}}}\'',
