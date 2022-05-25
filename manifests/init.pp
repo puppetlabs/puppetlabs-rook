@@ -1,4 +1,3 @@
-
 # @summary
 #   This module installs and configures Rook on a Kubernetes cluster.
 #
@@ -19,20 +18,16 @@
 #    Defaults to `true`
 #
 class rook (
-
   Array $env               = $rook::params::env,
   Array $path              = $rook::params::path,
   String $version          = $rook::params::version,
   Boolean $default_storage = $rook::params::default_storage,
-
 ) inherits rook::params {
-
   include rook::packages
   include rook::storage_class
   contain rook::packages
   contain rook::storage_class
 
   Class['rook::packages']
-    -> Class['rook::storage_class']
-
+  -> Class['rook::storage_class']
 }
