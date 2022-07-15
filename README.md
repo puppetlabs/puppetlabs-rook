@@ -1,6 +1,7 @@
 #### Table of Contents
 
 - [Description](#Description)
+* [Support](#support)
 - [Setup](#Setup)
 - [Usage](#Usage)
   - [Tasks](#Tasks)
@@ -15,6 +16,13 @@
 [Rook](https://github.com/rook/rook) is an open source orchestrator providing file, block, and object storage services for distributed storage systems running in cloud-native environments.
 
 This module installs and configures Rook on a Kubernetes cluster.
+
+## Support
+
+This module is not supported or maintained by Puppet and does not qualify for Puppet Support plans.
+It's provided without guarantee or warranty and you can use it at your own risk.
+All bugfixes, updates, and new feature development will come from community contributions.
+[tier:community]
 
 ## Setup
 
